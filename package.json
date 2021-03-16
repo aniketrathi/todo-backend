@@ -15,7 +15,7 @@
   "author": "",
   "license": "private",
   "dependencies": {
-    "bcrypt": "^3.0.7",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "config": "^3.2.5",
     "crypto-random-string": "^3.2.0",
@@ -31,7 +31,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "@types/bcrypt": "^3.0.0",
+    "@types/bcryptjs": "^2.4.2",
     "@types/body-parser": "^1.17.1",
     "@types/chai": "^4.2.11",
     "@types/chai-http": "^4.2.0",
