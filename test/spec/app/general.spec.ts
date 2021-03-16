@@ -1,7 +1,7 @@
 // tslint:disable-next-line: no-var-requires
 require('module-alias/register');
 
-import { App } from '../../../src/server/index';
+import { App } from '@server';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import { Application } from 'express';

@@ -9,7 +9,7 @@ import chaiHttp from "chai-http";
 import { Application } from "express";
 import { respositoryContext, testAppContext } from "../../mocks/app-context";
 
-import { App } from "../../../src/server/index";
+import { App } from "@server";
 
 chai.use(chaiHttp);
 const expect = chai.expect;
