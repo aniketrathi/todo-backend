@@ -18,7 +18,6 @@ const respositoryContext = {
 
 const appContext: AppContext = {
   logger,
-  accountRepository: new Repositories.AccountRepository(respositoryContext),
   todoRepository: new Repositories.TodoRepository(respositoryContext),
 };
 

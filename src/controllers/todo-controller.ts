@@ -26,7 +26,7 @@ export class TodoController extends BaseController {
   private initializeRoutes() {
     this.router.post(
       `${this.basePath}`,
-      createTodoValidator(this.appContext),
+      createTodoValidator(),
       this.createTodo,
     );
   }
