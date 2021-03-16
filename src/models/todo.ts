@@ -4,7 +4,7 @@ import { LooseObject } from "@typings";
 export class Todo extends BaseModel {
   title: string;
 
-  constructor(json?: any) {
+  constructor(json?: LooseObject) {
     super(json);
     if (json) {
       this.title = json.title;
