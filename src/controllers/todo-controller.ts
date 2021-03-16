@@ -30,7 +30,7 @@ export class TodoController extends BaseController {
       this.createTodo,
     );
   }
-
+  
   private createTodo = async (
     req: ExtendedRequest,
     res: Response,

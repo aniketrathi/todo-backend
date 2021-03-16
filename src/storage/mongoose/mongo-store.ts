@@ -7,7 +7,7 @@ import {
   Mongoose,
   Types,
 } from 'mongoose';
-import { Todo,BaseModel, ModelFactory } from '@models';
+import { Todo, BaseModel, ModelFactory } from '@models';
 import { IDataStore, QueryOptions, DeleteResult } from '@storage';
 import { LooseObject } from '@typings';
 import todo from './todo';
