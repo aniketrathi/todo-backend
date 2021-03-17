@@ -75,7 +75,7 @@ describe("DELETE /todos/:id", () => {
 });
 
 describe("PUT /todos/:id", () => {
-  it("should return 200 if todo exists else 404", async () => {
+  it("should return 200 if todo exists and title is validately true and 400 if title is empty or not a string else 404", async () => {
     let todo = await testAppContext.todoRepository.save(
       new TodoItem({ title: "TODO_TO_BE_UPDATED" })
     );
