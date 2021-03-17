@@ -20,6 +20,8 @@ export class TodoController extends BaseController {
     this.router.post(`${this.basePath}`, createTodoValidator(), this.createTodo);
 
     this.router.delete(`${this.basePath}/:id`, this.deleteTodo);
+
+    this.router.get(`${this.basePath}`, this.getTodos);
   }
 
   private createTodo = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
@@ -55,4 +57,15 @@ export class TodoController extends BaseController {
       res.status(404).send();
     }
   };
+
+  private getTodos = async (
+    req: ExtendedRequest,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    const todos = await this.appContext.todoRepository.getAll({
+      isActive: true
+    })
+    res.status(200).json(todos);
+  }
 }
