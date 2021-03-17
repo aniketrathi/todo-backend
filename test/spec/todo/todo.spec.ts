@@ -10,6 +10,7 @@ import { Application } from "express";
 import { respositoryContext, testAppContext } from "../../mocks/app-context";
 
 import { App } from "@server";
+import { TodoItem } from '@models';
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -57,5 +58,27 @@ describe("POST /todos", () => {
     expect(res.body)
       .to.have.nested.property("failures[0].message")
       .to.equal("Please specify the valid title");
+  });
+});
+
+describe("DELETE /todos/:id", () => {
+  it("should return a validation error if id is not Mongo id", async () => {
+    const res = await chai.request(expressApp).delete("/todos/1");
+
+    expect(res).to.have.status(400);
+    expect(res.body)
+      .to.have.nested.property("failures[0].message")
+      .to.equal("Please specify the valid todo Id");
+  });
+
+  it("should return 204 if todo exists else 404", async () => {
+    let todo = await testAppContext.todoRepository.save(
+      new TodoItem({ title: "TODO_TO_BE_DELETED" })
+    );
+    const res1 = await chai.request(expressApp).delete(`/todos/${todo._id}`);
+    expect(res1).to.have.status(204);
+
+    const res2 = await chai.request(expressApp).delete(`/todos/${todo._id}`);
+    expect(res2).to.have.status(404);
   });
 });
