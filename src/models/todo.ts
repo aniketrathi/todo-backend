@@ -1,7 +1,7 @@
 import { BaseModel } from "./base-model";
 import { LooseObject } from "@typings";
 
-export class Todo extends BaseModel {
+export class TodoItem extends BaseModel {
   title: string;
 
   constructor(json?: LooseObject) {

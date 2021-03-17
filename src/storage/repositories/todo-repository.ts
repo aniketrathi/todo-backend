@@ -1,19 +1,19 @@
 import { BaseRepository } from './base-repository';
-import { Todo, ModelFactory } from '@models';
+import { TodoItem, ModelFactory } from '@models';
 import { RepositoryContext } from './repository-context';
 
-export class TodoRepository extends BaseRepository<Todo> {
+export class TodoRepository extends BaseRepository<TodoItem> {
   constructor(context: RepositoryContext) {
     super(context);
   }
 
-  protected modelFactory(): ModelFactory<Todo> {
+  protected modelFactory(): ModelFactory<TodoItem> {
     return {
       getType() {
-        return typeof Todo;
+        return typeof TodoItem;
       },
       create(json: any) {
-        return new Todo(json);
+        return new TodoItem(json);
       },
     };
   }

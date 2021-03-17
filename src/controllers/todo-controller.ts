@@ -3,7 +3,7 @@ import lodash from 'lodash';
 import { BaseController } from './base-controller';
 import { NextFunction, Response, Router } from 'express';
 import { Validation } from '@helpers';
-import { Todo } from '@models';
+import { TodoItem } from '@models';
 import {
   AppContext,
   Errors,
@@ -49,7 +49,7 @@ export class TodoController extends BaseController {
 
     const { title } = req.body;
     const todo = await this.appContext.todoRepository.save(
-      new Todo({
+      new TodoItem({
         title,
       })
     );
