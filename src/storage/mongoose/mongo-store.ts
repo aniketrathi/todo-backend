@@ -1,4 +1,3 @@
-import account from './account';
 import config from 'config';
 import {
   connect,
@@ -8,9 +7,10 @@ import {
   Mongoose,
   Types,
 } from 'mongoose';
-import { Account, BaseModel, ModelFactory } from '@models';
+import { TodoItem, BaseModel, ModelFactory } from '@models';
 import { IDataStore, QueryOptions, DeleteResult } from '@storage';
 import { LooseObject } from '@typings';
+import todo from './todo';
 
 export class MongoStore implements IDataStore {
   public connect(): Promise<Mongoose> {
@@ -196,8 +196,8 @@ export class MongoStore implements IDataStore {
   private getModel<T extends BaseModel>(
     modelFactory: ModelFactory<T>,
   ): MongoosModel<Document> {
-    if (modelFactory.getType() === typeof Account) {
-      return account;
+    if (modelFactory.getType() === typeof TodoItem) {
+      return todo;
     }
     return null;
   }
