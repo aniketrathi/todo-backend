@@ -12,7 +12,8 @@
     "INVALID_LASTNAME": "Please specify last name.",
     "PASSWORD_MISSING": "Please provide a password.",
     "DUPLICATE_EMAIL": "The email you provided is already taken. Please provide a different one.",
-    "INVALID_TITLE": "Please specify the valid title"
+    "INVALID_TITLE": "Please specify the valid title",
+    "INVALID_ID": "Please specify the valid todo Id"
   },
   "MESSAGES": {
     "HEALTHCHECK": "OK"
