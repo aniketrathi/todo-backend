@@ -73,3 +73,50 @@ describe("DELETE /todos/:id", () => {
     expect(res2).to.have.status(404);
   });
 });
+
+describe("PUT /todos/:id", () => {
+  it("should return 200 if todo exists and title is validately true and 400 if title is empty or not a string else 404", async () => {
+    let todo = await testAppContext.todoRepository.save(
+      new TodoItem({ title: "TODO_TO_BE_UPDATED" })
+    );
+    if (todo._id) {
+      const res1 = await chai
+        .request(expressApp)
+        .put(`/todos/${todo._id}`)
+        .send({
+          title: "TODO",
+        });
+      expect(res1).to.have.status(200);
+
+      const res2 = await chai
+        .request(expressApp)
+        .put(`/todos/${todo._id}`)
+        .send({
+          title: "",
+        });
+      expect(res2).to.have.status(400);
+      expect(res2.body)
+        .to.have.nested.property("failures[0].message")
+        .to.equal("Please specify the valid title");
+
+      const res3 = await chai
+        .request(expressApp)
+        .put(`/todos/${todo._id}`)
+        .send({
+          title: { key: "value" },
+        });
+      expect(res3).to.have.status(400);
+      expect(res3.body)
+        .to.have.nested.property("failures[0].message")
+        .to.equal("Please specify the valid title");
+    } else {
+      const res5 = await chai
+        .request(expressApp)
+        .put(`/todos/${todo._id}`)
+        .send({
+          title: "TODO",
+        });
+      expect(res5).to.have.status(404);
+    }
+  });
+});
