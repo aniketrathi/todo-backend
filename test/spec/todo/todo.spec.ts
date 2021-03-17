@@ -73,3 +73,18 @@ describe("DELETE /todos/:id", () => {
     expect(res2).to.have.status(404);
   });
 });
+
+describe("GET /todos", () => {
+  it("should return 200 if todo exists else 404", async () => {
+    let todo = await testAppContext.todoRepository.save(
+      new TodoItem({ title: "GET_TODO" })
+    );
+    if (todo._id) {
+      const res1 = await chai.request(expressApp).get(`/todos/${todo._id}`);
+      expect(res1).to.have.status(200);
+    } else {
+      const res2 = await chai.request(expressApp).get(`/todos/${todo._id}`);
+      expect(res2).to.have.status(404);
+    }
+  });
+});
