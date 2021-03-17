@@ -120,3 +120,25 @@ describe("PUT /todos/:id", () => {
     }
   });
 });
+
+describe("GET /todos/:id", () => {
+  it("should get a book by given id", async () => {
+    let todo = await testAppContext.todoRepository.save(
+      new TodoItem({ title: "GET_TODO" })
+    );
+    const res = await chai.request(expressApp).get(`/todos/${todo._id}`);
+    expect(res).to.have.status(200);
+    expect(res.body).to.have.property("id");
+    expect(res.body).to.have.property("title");
+  });
+
+  it("should give response 404", async () => {
+    let todo = await testAppContext.todoRepository.save(
+      new TodoItem({ title: "GET_TODO" })
+    );
+
+    await chai.request(expressApp).delete(`/todos/${todo._id}`);
+    const res = await chai.request(expressApp).get(`/todos/${todo._id}`);
+    expect(res).to.have.status(404);
+  });
+});
