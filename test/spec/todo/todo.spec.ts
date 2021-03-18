@@ -11,7 +11,6 @@ import { respositoryContext, testAppContext } from "../../mocks/app-context";
 
 import { App } from "@server";
 import { TodoItem } from "@models";
-import { async } from "crypto-random-string";
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -75,14 +74,6 @@ describe("DELETE /todos/:id", () => {
   });
 });
 
-<<<<<<< HEAD
-describe("GET /todos", () => {
-  it("should return 200", async () => {
-    const res1 = await chai.request(expressApp).get("/todos");
-    expect(res1).to.have.status(200);
-  })
-})
-=======
 describe("PUT /todos/:id", () => {
   it("should return 200 if todo exists and title is validately true and 400 if title is empty or not a string else 404", async () => {
     let todo = await testAppContext.todoRepository.save(
@@ -131,7 +122,7 @@ describe("PUT /todos/:id", () => {
 });
 
 describe("GET /todos/:id", () => {
-  it("should get a book by given id", async () => {
+  it("should get a todo by given id", async () => {
     let todo = await testAppContext.todoRepository.save(
       new TodoItem({ title: "GET_TODO" })
     );
@@ -151,4 +142,11 @@ describe("GET /todos/:id", () => {
     expect(res).to.have.status(404);
   });
 });
->>>>>>> cc3d3faafda70bfb3c2ee35731545a1160a37754
+
+describe("GET /todos", () => {
+  it("should get todos items list", async () => {
+    const res = await chai.request(expressApp).get("/todos");
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an("array");
+  });
+});

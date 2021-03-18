@@ -21,13 +21,11 @@ export class TodoController extends BaseController {
 
     this.router.delete(`${this.basePath}/:id`, this.deleteTodo);
 
-<<<<<<< HEAD
-    this.router.get(`${this.basePath}`, this.getTodos);
-=======
     this.router.put(`${this.basePath}/:id`, createTodoValidator(), this.updateTodo);
 
     this.router.get(`${this.basePath}/:id`, this.fetchTodo);
->>>>>>> cc3d3faafda70bfb3c2ee35731545a1160a37754
+
+    this.router.get(`${this.basePath}`, this.getTodos);
   }
 
   private createTodo = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
@@ -63,19 +61,6 @@ export class TodoController extends BaseController {
       res.status(404).send();
     }
   };
-
-<<<<<<< HEAD
-  private getTodos = async (
-    req: ExtendedRequest,
-    res: Response,
-    next: NextFunction,
-  ) => {
-    const todos = await this.appContext.todoRepository.getAll({
-      isActive: true
-    })
-    res.status(200).json(todos);
-  }
-=======
   private updateTodo = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
     const failures: ValidationFailure[] = Validation.extractValidationErrors(req);
     if (failures.length > 0) {
@@ -109,5 +94,11 @@ export class TodoController extends BaseController {
       return next(valError);
     }
   };
->>>>>>> cc3d3faafda70bfb3c2ee35731545a1160a37754
+
+  private getTodos = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
+    const todos = await this.appContext.todoRepository.getAll({
+      isActive: true
+    });
+    res.status(200).json(todos);
+  };
 }
