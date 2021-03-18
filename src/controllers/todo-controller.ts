@@ -24,6 +24,8 @@ export class TodoController extends BaseController {
     this.router.put(`${this.basePath}/:id`, createTodoValidator(), this.updateTodo);
 
     this.router.get(`${this.basePath}/:id`, this.fetchTodo);
+
+    this.router.get(`${this.basePath}`, this.getTodos);
   }
 
   private createTodo = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
@@ -59,7 +61,6 @@ export class TodoController extends BaseController {
       res.status(404).send();
     }
   };
-
   private updateTodo = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
     const failures: ValidationFailure[] = Validation.extractValidationErrors(req);
     if (failures.length > 0) {
@@ -92,5 +93,12 @@ export class TodoController extends BaseController {
       const valError = new Errors.NotFoundError(res.__('DEFAULT_ERRORS.RESOURCE_NOT_FOUND'));
       return next(valError);
     }
+  };
+
+  private getTodos = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
+    const todos = await this.appContext.todoRepository.getAll({
+      isActive: true
+    });
+    res.status(200).json(todos);
   };
 }

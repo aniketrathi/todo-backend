@@ -122,7 +122,7 @@ describe("PUT /todos/:id", () => {
 });
 
 describe("GET /todos/:id", () => {
-  it("should get a book by given id", async () => {
+  it("should get a todo by given id", async () => {
     let todo = await testAppContext.todoRepository.save(
       new TodoItem({ title: "GET_TODO" })
     );
@@ -140,5 +140,13 @@ describe("GET /todos/:id", () => {
     await chai.request(expressApp).delete(`/todos/${todo._id}`);
     const res = await chai.request(expressApp).get(`/todos/${todo._id}`);
     expect(res).to.have.status(404);
+  });
+});
+
+describe("GET /todos", () => {
+  it("should get todos items list", async () => {
+    const res = await chai.request(expressApp).get("/todos");
+    expect(res).to.have.status(200);
+    expect(res.body).to.be.an("array");
   });
 });
