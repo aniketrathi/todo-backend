@@ -75,9 +75,80 @@ describe("DELETE /todos/:id", () => {
   });
 });
 
+<<<<<<< HEAD
 describe("GET /todos", () => {
   it("should return 200", async () => {
     const res1 = await chai.request(expressApp).get("/todos");
     expect(res1).to.have.status(200);
   })
 })
+=======
+describe("PUT /todos/:id", () => {
+  it("should return 200 if todo exists and title is validately true and 400 if title is empty or not a string else 404", async () => {
+    let todo = await testAppContext.todoRepository.save(
+      new TodoItem({ title: "TODO_TO_BE_UPDATED" })
+    );
+    if (todo._id) {
+      const res1 = await chai
+        .request(expressApp)
+        .put(`/todos/${todo._id}`)
+        .send({
+          title: "TODO",
+        });
+      expect(res1).to.have.status(200);
+
+      const res2 = await chai
+        .request(expressApp)
+        .put(`/todos/${todo._id}`)
+        .send({
+          title: "",
+        });
+      expect(res2).to.have.status(400);
+      expect(res2.body)
+        .to.have.nested.property("failures[0].message")
+        .to.equal("Please specify the valid title");
+
+      const res3 = await chai
+        .request(expressApp)
+        .put(`/todos/${todo._id}`)
+        .send({
+          title: { key: "value" },
+        });
+      expect(res3).to.have.status(400);
+      expect(res3.body)
+        .to.have.nested.property("failures[0].message")
+        .to.equal("Please specify the valid title");
+    } else {
+      const res5 = await chai
+        .request(expressApp)
+        .put(`/todos/${todo._id}`)
+        .send({
+          title: "TODO",
+        });
+      expect(res5).to.have.status(404);
+    }
+  });
+});
+
+describe("GET /todos/:id", () => {
+  it("should get a book by given id", async () => {
+    let todo = await testAppContext.todoRepository.save(
+      new TodoItem({ title: "GET_TODO" })
+    );
+    const res = await chai.request(expressApp).get(`/todos/${todo._id}`);
+    expect(res).to.have.status(200);
+    expect(res.body).to.have.property("id");
+    expect(res.body).to.have.property("title");
+  });
+
+  it("should give response 404", async () => {
+    let todo = await testAppContext.todoRepository.save(
+      new TodoItem({ title: "GET_TODO" })
+    );
+
+    await chai.request(expressApp).delete(`/todos/${todo._id}`);
+    const res = await chai.request(expressApp).get(`/todos/${todo._id}`);
+    expect(res).to.have.status(404);
+  });
+});
+>>>>>>> cc3d3faafda70bfb3c2ee35731545a1160a37754
