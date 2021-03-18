@@ -11,7 +11,6 @@ import { respositoryContext, testAppContext } from "../../mocks/app-context";
 
 import { App } from "@server";
 import { TodoItem } from "@models";
-import { async } from "crypto-random-string";
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -137,6 +136,7 @@ describe("GET /todos/:id", () => {
     let todo = await testAppContext.todoRepository.save(
       new TodoItem({ title: "GET_TODO" })
     );
+
     await chai.request(expressApp).delete(`/todos/${todo._id}`);
     const res = await chai.request(expressApp).get(`/todos/${todo._id}`);
     expect(res).to.have.status(404);

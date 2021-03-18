@@ -84,7 +84,7 @@ export class TodoController extends BaseController {
 
   private fetchTodo = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    const todo = await this.appContext.todoRepository.findById(id);
+    const todo = await this.appContext.todoRepository.findOne({ _id: id, isActive: true });
 
     if (todo?._id) {
       res.status(200).json(todo.serialize());
