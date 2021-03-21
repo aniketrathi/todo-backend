@@ -4,7 +4,7 @@ import { BaseController } from './base-controller';
 import { NextFunction, Response, Router } from 'express';
 import { Validation } from '@helpers';
 import { TodoItem } from '@models';
-import { AppContext, Errors, ExtendedRequest, ValidationFailure } from '@typings';
+import { AppContext, Errors, ExtendedRequest, LooseObject, ValidationFailure } from '@typings';
 import { createTodoValidator } from '@validators';
 
 export class TodoController extends BaseController {
@@ -56,11 +56,13 @@ export class TodoController extends BaseController {
     );
 
     if (todo?._id) {
-      res.status(204).send();
+      res.status(200).json(todo.serialize());
     } else {
-      res.status(404).send();
+      const valError = new Errors.NotFoundError(res.__('DEFAULT_ERRORS.RESOURCE_NOT_FOUND'));
+      return next(valError);
     }
   };
+
   private updateTodo = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
     const failures: ValidationFailure[] = Validation.extractValidationErrors(req);
     if (failures.length > 0) {
@@ -96,9 +98,14 @@ export class TodoController extends BaseController {
   };
 
   private getTodos = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
+    let todoItems: LooseObject[] = [];
     const todos = await this.appContext.todoRepository.getAll({
       isActive: true
     });
-    res.status(200).json(todos);
+
+    for (let todo of todos) {
+      todoItems.push(todo.serialize());
+    }
+    res.status(200).json(todoItems);
   };
 }
